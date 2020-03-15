@@ -1,12 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import fire from '../Firebase';
+import styles from '../styles/Styles';
 
 export default class Login extends React.Component {
   state = {
-      email:"",
-      password:"",
-      errorMessage: null
+    email:"",
+    password:"",
+    errorMessage: null
   }
 
   handleLogin = () => {
@@ -38,12 +39,17 @@ export default class Login extends React.Component {
             {this.state.errorMessage}
           </Text>}
         <TouchableOpacity 
-          style={styles.login}
+          style={styles.submit}
           onPress={this.handleLogin}>
           <Text>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>Signup</Text>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('Signup')}>
+          <Text>Sign Up</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('ForgotPassword')}>
+          <Text>Forgot password?</Text>
         </TouchableOpacity>
       </View>
     );
@@ -51,37 +57,3 @@ export default class Login extends React.Component {
   
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  inputText:{
-    height:50,
-    color:"white"
-  },
-
-  inputView:{
-    width:"80%",
-    backgroundColor:"#D3D3D3",
-    borderRadius:25,
-    height:50,
-    marginBottom:20,
-    justifyContent:"center",
-    padding:20
-  },
-
-  login:{
-    width:"80%",
-    backgroundColor:"#fb5b5a",
-    borderRadius:25,
-    height:50,
-    alignItems:"center",
-    justifyContent:"center",
-    marginTop:40,
-    marginBottom:10
-  }
-});
