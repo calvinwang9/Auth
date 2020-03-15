@@ -1,17 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-// import {auth} from "../Fire";
+import fire from '../Firebase';
 
 export default class Login extends React.Component {
   state = {
       email:"",
-      password:""
+      password:"",
+      errorMessage: null
   }
 
   handleLogin = () => {
-    // auth.signInWithEmailAndPassword(this.state.email, this.state.password)
-    //   .then(() => this.props.navigation.navigate('Home'))
-    //   .catch(error => this.setState({ errorMessage: error.message }))
+    fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(() => this.props.navigation.navigate('Home'))
+      .catch(error => this.setState({ errorMessage: error.message }))
   }
 
   render () {
@@ -32,13 +33,17 @@ export default class Login extends React.Component {
             secureTextEntry = {true}
             onChangeText = {(text) => this.setState({password:text})}/>
         </View>
-        <TouchableOpacity>
-          <Text>Signup</Text>
-        </TouchableOpacity>
+        {this.state.errorMessage &&
+          <Text style={{ color: 'red' }}>
+            {this.state.errorMessage}
+          </Text>}
         <TouchableOpacity 
           style={styles.login}
-          onPress={() => this.handleLogin}>
+          onPress={this.handleLogin}>
           <Text>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text>Signup</Text>
         </TouchableOpacity>
       </View>
     );
