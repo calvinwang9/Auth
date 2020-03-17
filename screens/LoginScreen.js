@@ -10,9 +10,15 @@ export default class Login extends React.Component {
     errorMessage: null
   }
 
-  handleLogin = () => {
+  anonLogin = () => {
+    fire.auth().signInAnonymously()
+      .then(() => this.props.navigation.navigate('Home', {type: 'anon'}))
+      .catch(error => this.setState({ errorMessage: error.message }))
+  }
+
+  userLogin = () => {
     fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => this.props.navigation.navigate('Home'))
+      .then(() => this.props.navigation.navigate('Home', {type: 'cred'}))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
 
@@ -40,8 +46,13 @@ export default class Login extends React.Component {
           </Text>}
         <TouchableOpacity 
           style={styles.submit}
-          onPress={this.handleLogin}>
+          onPress={this.userLogin}>
           <Text>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.submit}
+          onPress={this.anonLogin}>
+          <Text>Sign in as guest</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Signup')}>
