@@ -43,7 +43,11 @@ export default class Login extends React.Component {
         {this.state.errorMessage &&
           <Text style={{ color: 'red' }}>
             {this.state.errorMessage}
-          </Text>}
+          </Text>
+        }
+        {fire.auth().currentUser && // for debugging: should not display unless broke
+          <Text>Current user: {fire.auth().currentUser.email}</Text>
+        }
         <TouchableOpacity 
           style={styles.submit}
           onPress={this.userLogin}>

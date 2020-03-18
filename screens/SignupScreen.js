@@ -5,7 +5,6 @@ import styles from '../styles/Styles';
 
 export default class Signup extends React.Component {
   state = {
-    name: "",
     email:"",
     password:"",
     errorMessage: null
@@ -14,10 +13,9 @@ export default class Signup extends React.Component {
   handleSignup = () => {
     fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
-        user = fire.auth().currentUser;
-        user.updateProfile({displayName: this.state.name})
-        .then(() => this.props.navigation.navigate('Login'));
-      })
+          fire.auth().signOut()
+          .then(() => this.props.navigation.navigate('Login'))
+        })
       .catch(error => this.setState({ errorMessage: error.message }))
   }
 
@@ -25,13 +23,6 @@ export default class Signup extends React.Component {
     return (
       <View style={styles.container}>
         <Text>Sign up here{"\n"}</Text>
-        <View style={styles.inputView} >
-          <TextInput  
-            style={styles.inputText}
-            placeholder = "Name" 
-            placeholderTextColor = "#fff"
-            onChangeText = {(text) => this.setState({name:text})}/>
-        </View>
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
@@ -50,10 +41,11 @@ export default class Signup extends React.Component {
         {this.state.errorMessage &&
           <Text style={{ color: 'red' }}>
             {this.state.errorMessage}
-          </Text>}
+          </Text>
+        }
         <TouchableOpacity 
           style={styles.submit}
-          onPress={this.handleSignup}>
+          onPress={this.handleSignup.bind(this)}>
           <Text>Sign up</Text>
         </TouchableOpacity>
         <TouchableOpacity

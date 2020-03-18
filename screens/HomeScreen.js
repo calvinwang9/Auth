@@ -4,15 +4,16 @@ import fire from '../Firebase';
 import styles from '../styles/Styles';
 
 export default class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    var userDetails = fire.auth().currentUser;
-    this.state = {
-      user: this.props.navigation.getParam('type', 'anon'),
-      name: userDetails.displayName,
-      email: userDetails.email
-    }
-    
+  state = {
+    user: this.props.navigation.getParam('type', 'anon'),
+    email: fire.auth().currentUser.email,
+    errorMessage: null
+  }
+
+  handleSignOut = () => {
+    fire.auth().signOut()
+      .then(() => this.props.navigation.navigate('Login'))
+      .catch(error => this.setState({ errorMessage: error.message }))
   }
   
 
@@ -23,12 +24,17 @@ export default class Home extends React.Component {
           <Text>Welcome Anon</Text>
         }
         {this.state.user == 'cred' &&
-          <Text>Welcome {this.state.name}</Text>
+          <Text>Welcome {this.state.email}</Text>
         }
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('Login')}>
+          onPress={this.handleSignOut}>
           <Text>Log out</Text>
         </TouchableOpacity>
+        {this.state.errorMessage &&
+          <Text style={{ color: 'red' }}>
+            {this.state.errorMessage}
+          </Text>
+        }
       </View>
     );
   }
