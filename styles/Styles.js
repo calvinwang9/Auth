@@ -31,7 +31,19 @@ const styles = StyleSheet.create({
       height:50,
       alignItems:"center",
       justifyContent:"center",
-      marginTop:40,
+      marginTop:10,
+      marginBottom:10
+    },
+
+    googleButton:{
+      width:"40%",
+      backgroundColor:"#fb5b5a",
+      borderRadius:25,
+      height:50,
+      alignItems:"center",
+      justifyContent:"center",
+      marginTop:5,
+      marginRight:160,
       marginBottom:10
     }
 

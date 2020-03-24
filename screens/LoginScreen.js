@@ -1,5 +1,7 @@
 import React from 'react';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+// import { GoogleSignin } from '@react-native-community/google-signin';
+// import { GoogleSignin } from 'react-native-google-signin';
 import fire from '../Firebase';
 import styles from '../styles/Styles';
 
@@ -20,6 +22,13 @@ export default class Login extends React.Component {
     fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => this.props.navigation.navigate('Home', {type: 'cred'}))
       .catch(error => this.setState({ errorMessage: error.message }))
+  }
+
+  signinGoogle = () => {
+    // GoogleSignin.configure();
+    // var token = GoogleSignin.signIn();
+    // var credentials = fire.auth.GoogleAuthProvider.credential(token.idToken, data.accessToken)
+    // firebase.auth().signInWithCredential(credentials);
   }
 
   render () {
@@ -52,6 +61,11 @@ export default class Login extends React.Component {
           style={styles.submit}
           onPress={this.userLogin}>
           <Text>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.googleButton}
+          onPress={this.signinGoogle}>
+          <Text>Sign in with Google</Text>
         </TouchableOpacity>
         <TouchableOpacity 
           style={styles.submit}

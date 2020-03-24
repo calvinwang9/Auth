@@ -7,6 +7,8 @@ export default class Home extends React.Component {
   state = {
     user: this.props.navigation.getParam('type', 'anon'),
     email: fire.auth().currentUser.email,
+    verified: fire.auth().currentUser.emailVerified,
+    anonUser: fire.auth().currentUser.isAnonymous,
     errorMessage: null
   }
 
@@ -15,17 +17,24 @@ export default class Home extends React.Component {
       .then(() => this.props.navigation.navigate('Login'))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
+
+  renderMessage = () => {
+    if (this.state.anonUser) {
+      return <Text>Welcome Anon</Text>;
+    } else {
+      if (this.state.verified) {
+        return <Text>Welcome {this.state.email}{"\n"}Your email is verified.</Text>
+      } else {
+        return <Text>Welcome {this.state.email}{"\n"}Your email needs to be verified.</Text>
+      }
+    }
+  }
   
 
   render() {
     return (
       <View style={styles.container}>
-        {this.state.user == 'anon' &&
-          <Text>Welcome Anon</Text>
-        }
-        {this.state.user == 'cred' &&
-          <Text>Welcome {this.state.email}</Text>
-        }
+        {<this.renderMessage/>}
         <TouchableOpacity
           onPress={this.handleSignOut}>
           <Text>Log out</Text>
