@@ -9,7 +9,6 @@ export default class Signup extends React.Component {
     password:"",
     repassword:"",
     passwordOK: false,
-    passwordSame: false,
     errorMessage: null
   }
 
@@ -26,27 +25,28 @@ export default class Signup extends React.Component {
     }
   }
 
-  checkPasswordSame = () => {
-    if (this.state.password == this.state.repassword) {
-      this.setState({passwordSame:true})
+  checkPasswordOK = () => {
+    if (this.state.password.length < 8 && this.state.password.length > 0) {
+      this.setState({passwordOK:false})
+      this.setState({errorMessage:"Length of password must be at least 8 characters"})
+    } else if (this.state.password != this.state.repassword) {
+      this.setState({passwordOK:false})
+      this.setState({errorMessage:"Passwords do not match"})
+    } else if (this.state.password.length == 0) {
       this.setState({errorMessage:null})
     } else {
-      this.setState({errorMessage:"Passwords do not match"})
+      this.setState({passwordOK:true})
+      this.setState({errorMessage:null})
     }
   }
 
-  checkPasswordQuality = () => {
-    if (this.state.password.length < 8) {
-      this.setState({errorMessage:"Length of password must be at least 8 characters"})
-    }
-  }
-
-  handleSamePass = text => this.setState({repassword:text}, this.checkPasswordSame)
+  handlePass = text => this.setState({password:text}, this.checkPasswordOK)
+  handleRepass = text => this.setState({repassword:text}, this.checkPasswordOK)
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Sign up here{"\n"}</Text>
+        <Text style={styles.text}>Sign up here{"\n"}</Text>
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
@@ -61,7 +61,7 @@ export default class Signup extends React.Component {
             placeholder = "Password" 
             placeholderTextColor = "#fff"
             secureTextEntry = {true}
-            onChangeText = {(text) => this.setState({password:text})}/>
+            onChangeText = {(text) => this.handlePass(text)}/>
         </View>
         <View style={styles.inputView} >
           <TextInput  
@@ -70,21 +70,21 @@ export default class Signup extends React.Component {
             placeholder = "Retype Password" 
             placeholderTextColor = "#fff"
             secureTextEntry = {true}
-            onChangeText = {(text) => this.handleSamePass(text)}/>
+            onChangeText = {(text) => this.handleRepass(text)}/>
         </View>
         {this.state.errorMessage &&
-          <Text style={{ color: 'red' }}>
+          <Text style={{ color:'#F7567C'}}>
             {this.state.errorMessage}
           </Text>
         }
         <TouchableOpacity 
           style={styles.submit}
           onPress={this.handleSignup.bind(this)}>
-          <Text>Sign up</Text>
+          <Text >Sign up</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Login')}>
-          <Text>Cancel</Text>
+          <Text style={styles.text}>Cancel</Text>
         </TouchableOpacity>
       </View>
     );

@@ -62,11 +62,11 @@ export default class Login extends React.Component {
           onPress={this.userLogin}>
           <Text>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity 
+        {/* <TouchableOpacity 
           style={styles.googleButton}
           onPress={this.signinGoogle}>
           <Text>Sign in with Google</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity 
           style={styles.submit}
           onPress={this.anonLogin}>
@@ -74,11 +74,11 @@ export default class Login extends React.Component {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Signup')}>
-          <Text>Sign Up</Text>
+          <Text style={styles.text}>Sign Up</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-          <Text>Forgot password?</Text>
+          <Text style={styles.text}>Forgot password?</Text>
         </TouchableOpacity>
       </View>
     );

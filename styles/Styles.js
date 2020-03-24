@@ -4,7 +4,7 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#2B5172',
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -13,10 +13,15 @@ const styles = StyleSheet.create({
       height:50,
       color:"white"
     },
+
+    text:{
+      height:30,
+      color:"white"
+    },
   
     inputView:{
       width:"80%",
-      backgroundColor:"#D3D3D3",
+      backgroundColor:"#A0DDFF",
       borderRadius:25,
       height:50,
       marginBottom:20,
@@ -25,8 +30,8 @@ const styles = StyleSheet.create({
     },
   
     submit:{
-      width:"80%",
-      backgroundColor:"#fb5b5a",
+      width:"40%",
+      backgroundColor:"#71CFE0",
       borderRadius:25,
       height:50,
       alignItems:"center",
@@ -37,7 +42,7 @@ const styles = StyleSheet.create({
 
     googleButton:{
       width:"40%",
-      backgroundColor:"#fb5b5a",
+      backgroundColor:"#F7567C",
       borderRadius:25,
       height:50,
       alignItems:"center",

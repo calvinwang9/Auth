@@ -20,12 +20,12 @@ export default class Home extends React.Component {
 
   renderMessage = () => {
     if (this.state.anonUser) {
-      return <Text>Welcome Anon</Text>;
+      return <Text style={styles.text}>Welcome Anon</Text>;
     } else {
       if (this.state.verified) {
-        return <Text>Welcome {this.state.email}{"\n"}Your email is verified.</Text>
+        return <Text style={styles.text}>Welcome {this.state.email}. Your email is verified.</Text>
       } else {
-        return <Text>Welcome {this.state.email}{"\n"}Your email needs to be verified.</Text>
+        return <Text style={styles.text}>Welcome {this.state.email}. Your email needs to be verified.</Text>
       }
     }
   }
@@ -37,7 +37,7 @@ export default class Home extends React.Component {
         {<this.renderMessage/>}
         <TouchableOpacity
           onPress={this.handleSignOut}>
-          <Text>Log out</Text>
+          <Text style={styles.text}>Log out</Text>
         </TouchableOpacity>
         {this.state.errorMessage &&
           <Text style={{ color: 'red' }}>

@@ -15,8 +15,8 @@ export default class ForgotPassword extends React.Component {
     render() {
       return (
         <View style={styles.container}>
-            <Text>Forgot Password{"\n"}</Text>
-            <Text>Enter your registered email and {"\n"}we will send you a password reset link:{"\n"}</Text>
+            <Text style={styles.text}>Forgot Password{"\n"}</Text>
+            <Text style={{color:'white'}}>Enter your registered email and {"\n"}we will send you a password reset link:{"\n"}</Text>
             <View style={styles.inputView} >
                 <TextInput  
                     style={styles.inputText}
@@ -35,7 +35,7 @@ export default class ForgotPassword extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('Login')}>
-                <Text>Cancel</Text>
+                <Text style={styles.text}>Cancel</Text>
             </TouchableOpacity>
         </View>
       )
