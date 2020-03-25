@@ -13,27 +13,33 @@ export default class Signup extends React.Component {
   }
 
   handleSignup = () => {
-    if (passwordOK == true) {
+    if (this.state.passwordOK == true) {
       fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
-          var user = fire.auth().currentUser;
-          user.sendEmailVerification();
-          fire.auth().signOut()
-          .then(() => this.props.navigation.navigate('Login'))
-        })
+        var user = fire.auth().currentUser;
+        user.sendEmailVerification();
+        fire.auth().signOut()
+        .then(() => this.props.navigation.navigate('Login'))
+      })
       .catch(error => this.setState({ errorMessage: error.message }))
     }
   }
 
   checkPasswordOK = () => {
-    if (this.state.password.length < 8 && this.state.password.length > 0) {
+    var strongPass = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
+    if (this.state.password.length == 0){
       this.setState({passwordOK:false})
-      this.setState({errorMessage:"Length of password must be at least 8 characters"})
+      this.setState({errorMessage:null})
+    } else if (!strongPass.test(this.state.password)) {
+      this.setState({passwordOK:false})
+      this.setState({errorMessage:"Password should be at least 8 characters,\nwith lower/uppercase letters and a number"})
     } else if (this.state.password != this.state.repassword) {
       this.setState({passwordOK:false})
-      this.setState({errorMessage:"Passwords do not match"})
-    } else if (this.state.password.length == 0) {
-      this.setState({errorMessage:null})
+      if (this.state.repassword.length > 0) {
+        this.setState({errorMessage:"Passwords do not match"})
+      } else {
+        this.setState({errorMessage:null})
+      }
     } else {
       this.setState({passwordOK:true})
       this.setState({errorMessage:null})
@@ -73,7 +79,7 @@ export default class Signup extends React.Component {
             onChangeText = {(text) => this.handleRepass(text)}/>
         </View>
         {this.state.errorMessage &&
-          <Text style={{ color:'#F7567C'}}>
+          <Text style={styles.errorMsg}>
             {this.state.errorMessage}
           </Text>
         }

@@ -28,6 +28,10 @@ const styles = StyleSheet.create({
       justifyContent:"center",
       padding:20
     },
+
+    errorMsg: {
+      color:'#F7567C'
+    },
   
     submit:{
       width:"40%",

@@ -13,28 +13,26 @@ export default class Home extends React.Component {
   }
 
   handleSignOut = () => {
+    if (this.state.anonUser) {
+      fire.auth().currentUser.delete()
+      .then(() => console.log("deleted anon user"))
+      .catch(error => this.setState({ errorMessage: error.message }))
+    }
     fire.auth().signOut()
       .then(() => this.props.navigation.navigate('Login'))
       .catch(error => this.setState({ errorMessage: error.message }))
-  }
-
-  renderMessage = () => {
-    if (this.state.anonUser) {
-      return <Text style={styles.text}>Welcome Anon</Text>;
-    } else {
-      if (this.state.verified) {
-        return <Text style={styles.text}>Welcome {this.state.email}. Your email is verified.</Text>
-      } else {
-        return <Text style={styles.text}>Welcome {this.state.email}. Your email needs to be verified.</Text>
-      }
-    }
   }
   
 
   render() {
     return (
       <View style={styles.container}>
-        {<this.renderMessage/>}
+        {this.state.anonUser
+          ? <Text style={styles.text}>Welcome Anon</Text>
+          : <Text style={styles.text}> Welcome {this.state.email}</Text>
+        }
+        <Text style={styles.text}>Verified: {this.state.verified ? 'Yep' : 'Nope'}</Text>
+
         <TouchableOpacity
           onPress={this.handleSignOut}>
           <Text style={styles.text}>Log out</Text>
