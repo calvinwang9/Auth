@@ -13,25 +13,38 @@ export default class Login extends React.Component {
     errorMessage: null
   }
 
+  componentDidMount() {
+    console.log("starting...");
+    // fire.auth().signOut();
+    console.log('current user: ' + fire.auth().currentUser);
+  }
+
   anonLogin = () => {
     fire.auth().signInAnonymously()
       .then(() => this.props.navigation.navigate('Home', {type: 'anon'}))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
 
-  userLogin = () => {
-    fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+  userLogin = async () => {
+    const type = await fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => this.props.navigation.navigate('Home', {type: 'cred'}))
       .catch(error => this.setState({ errorMessage: error.message }))
+    if (type == 'success') {
+      return Promise.resolve({type: 'success'});
+    } else if (type == 'cancel') {
+      return Promise.reject({type: 'cancel'});
+    }
   }
 
   signinFacebook = async () => {
+    console.log("attempting to sign in with facebook");
     const appid = '294356371550090';
     const permissions = ['public_profile', 'email'];
     Facebook.initializeAsync(appid, 'Auth');
     const {type, token} = await Facebook.logInWithReadPermissionsAsync(appid, {permissions});
     
     if (type == 'success') {
+      console.log("fb token success");
       const credential = fire.auth.FacebookAuthProvider.credential(token);
       fire.auth().signInWithCredential(credential)
         .then(() => this.props.navigation.navigate('Home', {type: 'cred'}))
